@@ -1,0 +1,67 @@
+<div class="container-fluid">
+
+  <div class="row">
+
+    <div class="col-md-4">
+
+      <div class="user-list-card">
+        <chat-user-card *ngFor="let user of chatStateService.userList"
+          [user]="user"
+          (selectUser)="handleSelectUser(user._id)"
+          [isActive]="selectedUser?._id === user._id">
+        </chat-user-card>
+      </div>
+
+    </div>
+    <div class="col-md-8">
+
+      <div class="chat-container">
+        <ng-container *ngIf="chatStateService.selectedUser">
+          <div class="chat-header">
+
+            <img src="https://loremflickr.com/640/360"
+                 [alt]="chatStateService.selectedUser"
+                 class="avatar"
+            />
+            <p class="username">{{chatStateService.selectedUser}}</p>
+
+          </div>
+
+          <div class="chat-body">
+            <div *ngFor="let item of messages"
+                 [class.same-user]="item?.user === currentUser?._id"
+            >
+              <p class="message-container">{{item?.message}}</p>
+            </div>
+          </div>
+
+          <div class="chat-footer">
+
+            <div class="row">
+              <div class="col-md-10">
+                <div class="form-group mb-0">
+                  <input type="text"
+                         placeholder="Type a message"
+                         class="form-control"
+                         #messageControl
+                         (keyup)="$event.keyCode === 13 && sendMessage(messageControl.value)"
+                  />
+                </div>
+              </div>
+
+              <div class="col-md-2 text-center align-self-center">
+                <button class="btn btn-primary btn-sm px-3"
+                        (click)="sendMessage(messageControl.value)">Send
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </ng-container>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
